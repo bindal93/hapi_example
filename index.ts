@@ -26,14 +26,12 @@ const hapiOptions: Hapi.ServerOptions = {
 const init = async () => {
     try {
         let apiServer = new Hapi.Server(hapiOptions);
-        // apiServer.ext('onPreResponse', (request, h) => {
-        //     const response = request.response;
-        //     console.log("PRE-RESPONSE");
-        //     return h.continue;
-        // });
-        // apiServer.events.on('response', (request) => {
-        //     console.log(`Response sent for request: ${request.info.id}`);
-        // });
+        apiServer.ext('onPreResponse', (request, h) => {
+            return h.continue;
+        });
+        apiServer.events.on('response', (request) => {
+            console.log(`Response sent for request: ${request.info.id}`);
+        });
         const routes: Hapi.ServerRoute[] = [{
             method: 'GET',
             path: '/ping',
@@ -53,7 +51,7 @@ const init = async () => {
                 handler: (request: Hapi.Request, h: Hapi.ResponseToolkit) => {
                     let message: string = request.params.message;
                     return {
-                        "messageII": message
+                        "message": message
                     };
                 },
                 validate: {
