@@ -15,11 +15,6 @@ interface AppConfig {
 }
 
 const getConfig = (): AppConfig => {
-    /**
-     * tsc server.ts
-     * 
- APP_CONFIG='{"APP_HOST":"0.0.0.0","APP_PORT":"9000","MONGO_DB":"my_hapi_app","MONGO_HOST":"172.18.0.3","MONGO_USER":"hapi_user","MONGO_PASSW":"hapi_pass","MONGO_PORT":"27017","REDIS_HOST":"172.18.0.2","REDIS_DB":"0","REDIS_PORT":"6379","REDIS_PASSW":"1qasew345rfdcvfgty67uhnji90plkju7654321qawserdfcvghyu78ijko0okjhgt543ewsaasdfcvbhu8ik"}' APP_HOST="0.0.0.0" nodemon server.js
-     */
     const appConfig = JSON.parse(<string>process.env["APP_CONFIG"]);
     return {
         "APP_HOST": appConfig["APP_HOST"],
