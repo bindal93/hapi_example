@@ -3,6 +3,7 @@ import * as Path from 'path';
 import { getConfig } from './config';
 const config = getConfig();
 import { echo, ping } from './routes/healthCheck/index';
+import { timeSaver } from './cache/service'
 const hapiOptions: Hapi.ServerOptions = {
     load: { sampleInterval: 1000 },
     app: { ...config },
@@ -54,6 +55,7 @@ const init = async () => {
         });
         const routes: Hapi.ServerRoute[] = [ping, echo];
         apiServer.route(routes);
+        timeSaver(apiServer)
         await apiServer.start();
         console.log('Server running at:', apiServer.info.uri, new Date().toISOString());
         console.log('Server running on %s', apiServer.info.uri);

@@ -1,3 +1,4 @@
+import * as Hapi from '@hapi/hapi';
 interface AppConfig {
     APP_HOST: string
     APP_PORT: number,
@@ -13,7 +14,10 @@ interface AppConfig {
     MY_CACHE: string,
     REDIS_PARTITION: string;
 }
-
+interface ServiceCahe extends Hapi.ServerApplicationState {
+    findUser?: any,
+    findAllUsers?: any
+}
 const getConfig = (): AppConfig => {
     const appConfig = JSON.parse(<string>process.env["APP_CONFIG"]);
     return {
@@ -32,4 +36,4 @@ const getConfig = (): AppConfig => {
         "REDIS_PARTITION": "hapi_node_app"
     }
 };
-export { getConfig }
+export { getConfig, AppConfig, ServiceCahe }

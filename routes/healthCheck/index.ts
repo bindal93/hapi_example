@@ -1,5 +1,6 @@
 import * as Hapi from "@hapi/hapi";
 import * as Joi from '@hapi/joi';
+import * as UserHandler from '../../handlers/user'
 const echoQuerySchema = Joi.object().keys({
     o: Joi.string().optional(),
     m: Joi.string().required()
@@ -13,9 +14,7 @@ const ping: Hapi.ServerRoute = {
     options: {
         auth: false,
         description: "Check heartbeat",
-        handler: (_, h: Hapi.ResponseToolkit): string => {
-            return "pong";
-        },
+        handler: UserHandler.ping,
     }
 }
 const echo: Hapi.ServerRoute = {
@@ -24,13 +23,7 @@ const echo: Hapi.ServerRoute = {
     options: {
         auth: false,
         description: "Check heartbeat",
-        handler: (request: Hapi.Request, h: Hapi.ResponseToolkit): Hapi.Util.Dictionary<string> => {
-            let message: string = request.params.message;
-            let { m, o = 10 } = request.query;
-            return {
-                "message": message + m + o
-            };
-        },
+        handler: UserHandler.echo,
         validate: {
             params: echoParamsSchema,
             query: echoQuerySchema
